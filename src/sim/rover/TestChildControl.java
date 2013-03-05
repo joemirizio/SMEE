@@ -1,4 +1,4 @@
-package mygame;
+package sim.rover;
 
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;

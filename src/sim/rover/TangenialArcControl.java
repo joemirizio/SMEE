@@ -1,4 +1,4 @@
-package mygame;
+package sim.rover;
 
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;

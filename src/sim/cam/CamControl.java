@@ -1,4 +1,4 @@
-package mygame.kinect;
+package sim.cam;
 
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
@@ -24,14 +24,14 @@ import com.jme3.scene.debug.WireFrustum;
 import com.jme3.shadow.ShadowUtil;
 import com.jme3.util.BufferUtils;
 import java.io.IOException;
-import mygame.Debug;
-import mygame.Main;
+import sim.Debug;
+import sim.Main;
 
 /**
  *
  * @author joemirizio
  */
-public class KinectControl extends AbstractControl {
+public class CamControl extends AbstractControl {
 	//Any local variables should be encapsulated by getters/setters so they
 	//appear in the SDK properties window and can be edited.
 	//Right-click a local variable to encapsulate it with getters and setters.
@@ -42,7 +42,7 @@ public class KinectControl extends AbstractControl {
 	
 	private WireFrustum wire_frustum;
 	
-	public KinectControl(Camera camera, Node node) {
+	public CamControl(Camera camera, Node node) {
 		this.camera = camera;
 		
 		frustum_pts = new Vector3f[8];
@@ -83,7 +83,7 @@ public class KinectControl extends AbstractControl {
 		Main.ROOT_NODE.attachChild(this.frustum);
 	}
 	
-	//@TODO Move to Kinect
+	//@TODO Move to Cam
 	public void updateFrustum() {
 		// Draw camera frustum
 		this.updateFrustumPoints2(camera, frustum_pts);
@@ -104,7 +104,7 @@ public class KinectControl extends AbstractControl {
 	}
 	
 	public Control cloneForSpatial(Spatial spatial) {
-		KinectControl control = new KinectControl(null, null);
+		CamControl control = new CamControl(null, null);
 		//TODO: copy parameters to new Control
 		control.setSpatial(spatial);
 		return control;
