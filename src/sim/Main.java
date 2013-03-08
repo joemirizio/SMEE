@@ -88,7 +88,17 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         DirectionalLight sun = new DirectionalLight();
         sun.setDirection(new Vector3f(-0.1f, -0.7f, -1.0f));
         rootNode.addLight(sun);
-		
+        /** A cone-shaped spotlight with location, direction, range */
+        SpotLight spot = new SpotLight(); 
+        spot = new SpotLight(); 
+        spot.setSpotRange(100f); 
+        spot.setSpotOuterAngle(35f * FastMath.DEG_TO_RAD); 
+        spot.setSpotInnerAngle(15f * FastMath.DEG_TO_RAD); 
+        spot.setColor(ColorRGBA.White.mult(1.3f));
+        spot.setDirection(cam.getDirection()); 
+        spot.setPosition(cam.getLocation()); 
+        rootNode.addLight(spot); 
+
         // Initialize Controls and GUI
         this.initControls();
         this.setDisplayFps(false);
@@ -111,7 +121,7 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         rootNode.attachChild(floor);
         // Prediction Zone
         Material prediction_line_mat = unshaded_mat.clone();
-        prediction_line_mat.setColor("Color", ColorRGBA.Gray);
+        prediction_line_mat.setColor("Color", ColorRGBA.White);
         Cylinder prediction_line_cylinder = new Cylinder(10, 30, 12, 0.3f, true);
         prediction_line_cylinder.setMode(Mode.Lines);
         Geometry prediction_line = new Geometry("PredictionZone", prediction_line_cylinder);
@@ -121,7 +131,9 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         // Alert Zone
         Material alert_zone_mat = unshaded_mat.clone();
         alert_zone_mat.setColor("Color", ColorRGBA.Red);
-        Geometry alert_zone = new Geometry("AlertZone", new Cylinder(2, 30, 10, 0.5f, true));
+        Cylinder alert_zone = new Cylinder(2, 30, 10, 0.5f, true);
+        alert_zone.setMode(Mode.Lines);
+        Geometry alert_zone = new Geometry("AlertZone", alert_zone);
         alert_zone.rotate(FastMath.HALF_PI, 0, 0);
         alert_zone.setMaterial(alert_zone_mat);
         rootNode.attachChild(alert_zone);
