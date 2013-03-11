@@ -33,7 +33,7 @@ public class Cam2 {
 		this.camera.setFrustumPerspective(56, RES_X / RES_Y, NEAR, FAR); // 56 VFOV, 69 horizontal FOV
 		// Geometry
 		Material unshaded_mat = new Material(Main.ASSET_MANAGER, "Common/MatDefs/Misc/Unshaded.j3md");
-		unshaded_mat.setColor("Color", ColorRGBA.Black);
+		unshaded_mat.setColor("Color", ColorRGBA.Green);
 		
 		Box cam_body_box = new Box(11f, 1.5f , 2.5f);
 		Geometry cam_body = new Geometry("CamBody", cam_body_box);
