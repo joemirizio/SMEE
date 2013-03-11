@@ -20,9 +20,9 @@ public class Cam {
 	private Camera camera;
 	
 	public static int RES_X = 640, RES_Y = 480;
-	public static float NEAR = 2.62467f, FAR = 13.1234f;
+	public static float NEAR = 2.62467f, FAR = 13.1234f; //from microsoft website, near and far planes. Kate to research
 	
-	public Cam(String name) {
+	public Cam(String name) {//, int vFov) { //create variables here, need to add to main class
 		this.main_node = new Node(name);
 		
 		// Camera
