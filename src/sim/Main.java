@@ -9,6 +9,7 @@ import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.light.DirectionalLight;
+import com.jme3.light.Light;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
@@ -74,6 +75,7 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         app.start();
         java.util.logging.Logger.getLogger("").setLevel(java.util.logging.Level.SEVERE);
     }
+    private Light Light;
 
     @Override
     public void simpleInitApp() {
@@ -88,7 +90,23 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         DirectionalLight sun = new DirectionalLight();
         sun.setDirection(new Vector3f(-0.1f, -0.7f, -1.0f));
         rootNode.addLight(sun);
-		
+        
+        SpotLight spot = new SpotLight();
+        spot.setSpotRange(100f);                           // distance
+        spot.setSpotInnerAngle(15f * FastMath.DEG_TO_RAD); // inner light cone (central beam)
+        spot.setSpotOuterAngle(35f * FastMath.DEG_TO_RAD); // outer light cone (edge of the light)
+        spot.setColor(ColorRGBA.White.mult(1.3f));         // light color
+        spot.setPosition(cam.getLocation());               // shine from camera loc
+        spot.setDirection(cam.getDirection());             // shine forward from camera loc
+        rootNode.addLight(spot); 
+
+        //rootNode.setShadowMode(ShadowMode.Off);        // reset all
+        //wall.setShadowMode(ShadowMode.CastAndReceive); // normal behaviour (slow)
+        //floor.setShadowMode(ShadowMode.Receive);       // can't see shadow cast below floor anyway...
+        //airplane.setShadowMode(ShadowMode.Cast);       // nothing casts shadows onto airplane anyway...
+        //ghost.setShadowMode(ShadowMode.Off);           // ghost is translucent anyway...
+        
+        
         // Initialize Controls and GUI
         this.initControls();
         this.setDisplayFps(false);
@@ -346,5 +364,35 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
     }
 
     public void cleanup() {
+    }
+
+    private static class SpotLight {
+
+        public SpotLight() {
+        }
+
+        private void setSpotRange(float f) {
+            throw new UnsupportedOperationException("Not yet implemented");
+        }
+
+        private void setSpotOuterAngle(float f) {
+            throw new UnsupportedOperationException("Not yet implemented");
+        }
+
+        private void setSpotInnerAngle(float f) {
+            throw new UnsupportedOperationException("Not yet implemented");
+        }
+
+        private void setDirection(Vector3f direction) {
+            throw new UnsupportedOperationException("Not yet implemented");
+        }
+
+        private void setPosition(Vector3f location) {
+            throw new UnsupportedOperationException("Not yet implemented");
+        }
+
+        private void setColor(ColorRGBA mult) {
+            throw new UnsupportedOperationException("Not yet implemented");
+        }
     }
 }
