@@ -10,6 +10,7 @@ import com.jme3.input.controls.KeyTrigger;
 import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.light.DirectionalLight;
 import com.jme3.light.Light;
+import com.jme3.light.SpotLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
@@ -364,35 +365,5 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
     }
 
     public void cleanup() {
-    }
-
-    private static class SpotLight {
-
-        public SpotLight() {
-        }
-
-        private void setSpotRange(float f) {
-            throw new UnsupportedOperationException("Not yet implemented");
-        }
-
-        private void setSpotOuterAngle(float f) {
-            throw new UnsupportedOperationException("Not yet implemented");
-        }
-
-        private void setSpotInnerAngle(float f) {
-            throw new UnsupportedOperationException("Not yet implemented");
-        }
-
-        private void setDirection(Vector3f direction) {
-            throw new UnsupportedOperationException("Not yet implemented");
-        }
-
-        private void setPosition(Vector3f location) {
-            throw new UnsupportedOperationException("Not yet implemented");
-        }
-
-        private void setColor(ColorRGBA mult) {
-            throw new UnsupportedOperationException("Not yet implemented");
-        }
     }
 }
