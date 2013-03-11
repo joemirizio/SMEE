@@ -1,4 +1,9 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package sim.cam;
+
 
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
@@ -9,20 +14,18 @@ import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
 import sim.Debug;
 import sim.Main;
-
 /**
  *
- * @author joemirizio
+ * @author IMAC
  */
-public class Cam {
-	
-	private Node main_node;
+public class Cam2 {
+  private Node main_node;
 	private Camera camera;
 	
 	public static int RES_X = 640, RES_Y = 480;
 	public static float NEAR = 2.62467f, FAR = 13.1234f;
 	
-	public Cam(String name) {
+	public Cam2(String name) {
 		this.main_node = new Node(name);
 		
 		// Camera
@@ -51,7 +54,7 @@ public class Cam {
 		return this.camera;
 	}
 		
-	public Cam setLocalTranslation(Vector3f location) {
+	public Cam2 setLocalTranslation(Vector3f location) {
 		this.main_node.setLocalTranslation(location);
 		this.camera.setLocation(location);
 		return this;
@@ -65,6 +68,6 @@ public class Cam {
 		CamControl control = this.main_node.getControl(CamControl.class);
 		control.updateFrustum();
 	}
-	
-	
+	  
 }
+
