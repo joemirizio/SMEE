@@ -157,17 +157,17 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         rootNode.attachChild(cam2.getMainNode());
 
         /** Camera Viewports **/
-        cam1.getCamera().setViewPort(0f, 0.625f, 0f, 0.625f); //adjust angle of camera?
+        cam1.getCamera().setViewPort(0f, 0.625f, 0f, 0.625f); //adjusts location of squares
         ViewPort cam_vp2 = renderManager.createMainView("cam1", cam1.getCamera());
         cam_vp2.setClearFlags(true, true, true);
         cam_vp2.attachScene(rootNode);
-        cam_vp2.setBackgroundColor(ColorRGBA.Pink);
+        cam_vp2.setBackgroundColor(ColorRGBA.Gray);
 
-        cam2.getCamera().setViewPort(0f, 0.625f, 0f, 0.625f); //adjust angle of camera?
+        cam2.getCamera().setViewPort(1.0f, 1.625f, 0f, 0.625f); //adjusts location of squares
         ViewPort cam_vp1 = renderManager.createMainView("cam2", cam2.getCamera());
         cam_vp1.setClearFlags(true, true, true);
         cam_vp1.attachScene(rootNode);
-        cam_vp1.setBackgroundColor(ColorRGBA.Pink);
+        cam_vp1.setBackgroundColor(ColorRGBA.Gray);
 
         //bb = BufferUtils.createByteBuffer(cam.RES_X * cam.RES_Y * 4);
         //bi = new BufferedImage(cam.RES_X, cam.RES_Y, BufferedImage.TYPE_4BYTE_ABGR);
