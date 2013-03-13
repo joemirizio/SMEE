@@ -167,8 +167,8 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         //bi = new BufferedImage(cam.RES_X, cam.RES_Y, BufferedImage.TYPE_4BYTE_ABGR);
         
         // Test object
-        Vector3f test_pos = new Vector3f(10f, 10f, 10f);
-        Debug.attachCube(test_pos, ColorRGBA.Pink, "Kate");
+        //Vector3f test_pos = new Vector3f(10f, 10f, 10f);
+        //Debug.attachCube(test_pos, ColorRGBA.Pink, "Kate");
     }
 
     @Override
