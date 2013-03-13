@@ -43,7 +43,9 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
     static final int APP_RES_X = 1024, APP_RES_Y = 768;
     static final boolean APP_VSYNC = true, APP_FULLSCREEN = false;
     public static final float INCH_PER_FOOT = 1f / 12f;
-
+    //public static final int vFOV1 = 56; //not sure if this goes here or in cam.java
+    //public static final int vFOV2 = 43; //not sure if this goes here or in cam.java
+    
     private Cam cam1;
     private Cam cam2;
 

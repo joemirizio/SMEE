@@ -21,16 +21,18 @@ public class Cam {
 	
 	public static int RES_X = 640, RES_Y = 480;
 	public static float NEAR = 2.62467f, FAR = 13.1234f; //from microsoft website, near and far planes. Kate to research
-	
+	public static int vFOV1 = 56;
+        public static int vFOV2 = 43; 
+        
 	public Cam(String name) {//, int vFov) { //create variables here, need to add to main class
 		this.main_node = new Node(name);
 		
 		// Camera
 		this.camera = new Camera(RES_X, RES_Y);
-		this.camera.setFrustumPerspective(56, RES_X / RES_Y, NEAR, FAR); // 56 VFOV, 69 horizontal FOV
+		this.camera.setFrustumPerspective(vFOV1, RES_X / RES_Y, NEAR, FAR); // 56 VFOV, 69 horizontal FOV
 		// Geometry
 		Material unshaded_mat = new Material(Main.ASSET_MANAGER, "Common/MatDefs/Misc/Unshaded.j3md");
-		unshaded_mat.setColor("Color", ColorRGBA.Black);
+		unshaded_mat.setColor("Color", ColorRGBA.Black); //set color of cam box to black 
 		
 		Box cam_body_box = new Box(11f, 1.5f , 2.5f);
 		Geometry cam_body = new Geometry("CamBody", cam_body_box);
