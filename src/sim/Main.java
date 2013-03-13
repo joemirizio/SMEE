@@ -141,12 +141,12 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
 
         /** Initilize Cameras **/
         cam1 = new Cam("cam1");
-        cam1.setLocalTranslation(new Vector3f(0, 6, 0));
+        cam1.setLocalTranslation(new Vector3f(-3, 6, 0)); //this is where you change the location of the camera
         cam1.lookAt(cam_1_DEFAULT_LOC);
         rootNode.attachChild(cam1.getMainNode());
         
         cam2 = new Cam("cam2");
-        cam2.setLocalTranslation(new Vector3f(0, 6, 0));		
+        cam2.setLocalTranslation(new Vector3f(3, 6, 0));		
         cam2.lookAt(cam_2_DEFAULT_LOC);
         rootNode.attachChild(cam2.getMainNode());
 
