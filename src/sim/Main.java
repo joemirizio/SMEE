@@ -123,6 +123,12 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         // Alert Zone
         Material alert_zone_mat = unshaded_mat.clone();
         alert_zone_mat.setColor("Color", ColorRGBA.Red);
+        //alert_zone_mat.setTexture("ColorMap", assetManager.loadTexture("Interface/Logo/Monkey.png"));
+        //alert_zone_mat.setFloat( "Shininess", 5f);
+        //alert_zone_mat.setBoolean( "SphereMap", true);
+        //alert_zone_mat.setVector3( "NormalScale", new Vector3f(1f,1f,1f));
+
+        
         Geometry alert_zone = new Geometry("AlertZone", new Cylinder(2, 30, 10, 0.5f, true));
         alert_zone.rotate(FastMath.HALF_PI, 0, 0);
         alert_zone.setMaterial(alert_zone_mat);
@@ -151,13 +157,13 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         rootNode.attachChild(cam2.getMainNode());
 
         /** Camera Viewports **/
-        cam1.getCamera().setViewPort(0f, 0.625f, 0f, 0.625f);
+        cam1.getCamera().setViewPort(0f, 0.625f, 0f, 0.625f); //adjust angle of camera?
         ViewPort cam_vp2 = renderManager.createMainView("cam1", cam1.getCamera());
         cam_vp2.setClearFlags(true, true, true);
         cam_vp2.attachScene(rootNode);
         cam_vp2.setBackgroundColor(ColorRGBA.Pink);
 
-        cam2.getCamera().setViewPort(1.0f, 1.625f, 0f, 0.625f);
+        cam2.getCamera().setViewPort(0f, 0.625f, 0f, 0.625f); //adjust angle of camera?
         ViewPort cam_vp1 = renderManager.createMainView("cam2", cam2.getCamera());
         cam_vp1.setClearFlags(true, true, true);
         cam_vp1.attachScene(rootNode);
