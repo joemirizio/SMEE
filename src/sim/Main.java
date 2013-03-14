@@ -51,8 +51,8 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
 
     //public static final Vector3f cam_1_DEFAULT_LOC = new Vector3f(0.3f, -0.75f, 0.55f);
     //public static final Vector3f cam_2_DEFAULT_LOC = new Vector3f(-0.3f, -0.75f, 0.55f);
-    public static final Vector3f cam_1_DEFAULT_LOC = new Vector3f(0.4f, -0.7f, 0.55f);
-    public static final Vector3f cam_2_DEFAULT_LOC = new Vector3f(-0.4f, -0.7f, 0.55f);
+    public static final Vector3f cam_1_DEFAULT_LOC = new Vector3f(0.3f,-0.4f,0.4f); //(0.4f, -0.7f, 0.55f);
+    public static final Vector3f cam_2_DEFAULT_LOC = new Vector3f(-0.3f,-0.4f,0.4f); //(-0.4f, -0.7f, 0.55f);
 
     // Camera processing
     private FrameBuffer nfb;
@@ -161,13 +161,13 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         ViewPort cam_vp2 = renderManager.createMainView("cam1", cam1.getCamera());
         cam_vp2.setClearFlags(true, true, true);
         cam_vp2.attachScene(rootNode);
-        cam_vp2.setBackgroundColor(ColorRGBA.Gray);
+        cam_vp2.setBackgroundColor(ColorRGBA.Gray); //horizon color
 
         cam2.getCamera().setViewPort(1.0f, 1.625f, 0f, 0.625f); //adjusts location of squares
         ViewPort cam_vp1 = renderManager.createMainView("cam2", cam2.getCamera());
         cam_vp1.setClearFlags(true, true, true);
         cam_vp1.attachScene(rootNode);
-        cam_vp1.setBackgroundColor(ColorRGBA.Gray);
+        cam_vp1.setBackgroundColor(ColorRGBA.Gray); //horizon color
 
         //bb = BufferUtils.createByteBuffer(cam.RES_X * cam.RES_Y * 4);
         //bi = new BufferedImage(cam.RES_X, cam.RES_Y, BufferedImage.TYPE_4BYTE_ABGR);
