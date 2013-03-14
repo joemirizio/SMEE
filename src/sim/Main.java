@@ -106,11 +106,13 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         /** Setup Test Area **/
         Material unshaded_mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         unshaded_mat.setColor("Color", ColorRGBA.Blue);
+        
         // Floor
         Geometry floor = new Geometry("Floor", new Box(Vector3f.ZERO, 15, 0.1f, 15));
         floor.setLocalTranslation(Vector3f.ZERO);
         floor.setMaterial(unshaded_mat);
         rootNode.attachChild(floor);
+        
         // Prediction Zone
         Material prediction_line_mat = unshaded_mat.clone();
         prediction_line_mat.setColor("Color", ColorRGBA.Gray);
@@ -120,6 +122,7 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         prediction_line.rotate(FastMath.HALF_PI, 0, 0);
         prediction_line.setMaterial(prediction_line_mat);
         rootNode.attachChild(prediction_line);
+        
         // Alert Zone
         Material alert_zone_mat = unshaded_mat.clone();
         alert_zone_mat.setColor("Color", ColorRGBA.Red);
@@ -133,6 +136,7 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         alert_zone.rotate(FastMath.HALF_PI, 0, 0);
         alert_zone.setMaterial(alert_zone_mat);
         rootNode.attachChild(alert_zone);
+        
         // Safe Zone
         Material safe_zone_mat = unshaded_mat.clone();
         safe_zone_mat.setColor("Color", ColorRGBA.Green);
@@ -140,6 +144,7 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         safe_zone.rotate(FastMath.HALF_PI, 0, 0);
         safe_zone.setMaterial(safe_zone_mat);
         rootNode.attachChild(safe_zone);
+        
         // 120 degrees boundries (+/- 60 degrees)
         float dist = 12;
         Debug.attachArrow(rootNode, new Vector3f(FastMath.sin(FastMath.DEG_TO_RAD * 60) * dist, 1, FastMath.cos(FastMath.DEG_TO_RAD * 60) * dist), ColorRGBA.Yellow, "1");
@@ -147,12 +152,12 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
 
         /** Initilize Cameras **/
         cam1 = new Cam("cam1");
-        cam1.setLocalTranslation(new Vector3f(-3, 6, 0)); //this is where you change the location of the camera
+        cam1.setLocalTranslation(new Vector3f(-3f, 6f, 0f)); //this is where you change the location of the camera
         cam1.lookAt(cam_1_DEFAULT_LOC);
         rootNode.attachChild(cam1.getMainNode());
         
         cam2 = new Cam("cam2");
-        cam2.setLocalTranslation(new Vector3f(3, 6, 0));		
+        cam2.setLocalTranslation(new Vector3f(3f, 6f, 0f));		
         cam2.lookAt(cam_2_DEFAULT_LOC);
         rootNode.attachChild(cam2.getMainNode());
 
@@ -172,9 +177,7 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         //bb = BufferUtils.createByteBuffer(cam.RES_X * cam.RES_Y * 4);
         //bi = new BufferedImage(cam.RES_X, cam.RES_Y, BufferedImage.TYPE_4BYTE_ABGR);
         
-        // Test object
-        //Vector3f test_pos = new Vector3f(10f, 10f, 10f);
-        //Debug.attachCube(test_pos, ColorRGBA.Pink, "Kate");
+       
     }
 
     @Override
