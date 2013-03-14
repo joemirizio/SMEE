@@ -27,6 +27,7 @@ import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Cylinder;
 import com.jme3.system.AppSettings;
 import com.jme3.texture.FrameBuffer;
+import com.jme3.texture.Texture;
 import com.jme3.util.BufferUtils;
 import com.jme3.util.Screenshots;
 import java.awt.image.BufferedImage;
@@ -132,6 +133,7 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         /** Setup Test Area **/
         Material unshaded_mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         unshaded_mat.setColor("Color", ColorRGBA.Blue);
+        
         // Floor
         Geometry floor = new Geometry("Floor", new Box(Vector3f.ZERO, 15, 0.1f, 15));
         floor.setLocalTranslation(Vector3f.ZERO);
@@ -147,8 +149,12 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         prediction_line.setMaterial(prediction_line_mat);
         rootNode.attachChild(prediction_line);
         // Alert Zone
-        Material alert_zone_mat = unshaded_mat.clone();
-        alert_zone_mat.setColor("Color", ColorRGBA.Red);
+        Material alert_zone_mat = new Material(assetManager, "Common/MatDefs/Light/Lighting.j3md");
+//        alert_zone_mat.setColor("Color", ColorRGBA.Red);
+        alert_zone_mat.setBoolean("UseMaterialColors",true);  // needed for shininess
+        alert_zone_mat.setColor("Specular", ColorRGBA.White); // needed for shininess
+        alert_zone_mat.setColor("Diffuse",  ColorRGBA.Red); // needed for shininess
+        alert_zone_mat.setFloat("Shininess", 50f); // shininess from 1-128
         Geometry alert_zone = new Geometry("AlertZone", new Cylinder(2, 30, 10, 0.5f, true));
         alert_zone.rotate(FastMath.HALF_PI, 0, 0);
         alert_zone.setMaterial(alert_zone_mat);
@@ -160,6 +166,45 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         safe_zone.rotate(FastMath.HALF_PI, 0, 0);
         safe_zone.setMaterial(safe_zone_mat);
         rootNode.attachChild(safe_zone);
+        
+//        /** An unshaded textured cube. 
+// *  Uses texture from jme3-test-data library! */ 
+//Box boxshape1 = new Box(Vector3f.ZERO, 1f,1f,1f); 
+//Geometry cube_tex = new Geometry("A Textured Box", boxshape1); 
+//Material mat_tex = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md"); 
+//Texture tex = assetManager.loadTexture("Interface/Logo/Monkey.jpg"); 
+//mat_tex.setTexture("ColorMap", tex); 
+//cube_tex.setMaterial(mat_tex); 
+//rootNode.attachChild(cube_tex);
+//
+///** Illuminated bumpy rock with shiny effect. 
+// *  Uses Texture from jme3-test-data library! Needs light source! */
+//Sphere rock = new Sphere(32,32, 2f);
+//Geometry rock_shiny = new Geometry("Shiny rock", rock);
+//rock.setTextureMode(Sphere.TextureMode.Projected); // better quality on spheres
+//TangentBinormalGenerator.generate(rock);   // for lighting effect
+//Material mat_shiny = new Material( assetManager, "Common/MatDefs/Light/Lighting.j3md");
+//mat_shiny.setTexture("DiffuseMap", assetManager.loadTexture("Textures/Terrain/Pond/Pond.png"));
+//mat_shiny.setTexture("NormalMap",  assetManager.loadTexture("Textures/Terrain/Pond/Pond_normal.png"));
+////mat_shiny.setTexture("GlowMap", assetManager.loadTexture("Textures/glowmap.png")); // requires flow filter!
+//mat_shiny.setBoolean("UseMaterialColors",true);  // needed for shininess
+//mat_shiny.setColor("Specular", ColorRGBA.White); // needed for shininess
+//mat_shiny.setColor("Diffuse",  ColorRGBA.White); // needed for shininess
+//mat_shiny.setFloat("Shininess", 5f); // shininess from 1-128
+//rock_shiny.setMaterial(mat_shiny);
+//rootNode.attachChild(rock_shiny);
+//        /** An unshaded textured cube. 
+// *  Uses texture from jme3-test-data library! */ 
+//Box boxshape1 = new Box(Vector3f.ZERO, 1f,1f,1f); 
+//Geometry cube_tex = new Geometry("A Textured Box", boxshape1); 
+//Material mat_tex = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md"); 
+//Texture tex = assetManager.loadTexture("mindstorm2.j3o"); 
+//mat_tex.setTexture("ColorMap", tex); 
+//cube_tex.setMaterial(mat_tex); 
+//rootNode.attachChild(cube_tex); 
+
+// Material mat = assetManager.loadMaterial("Common/Materials/RedColor.j3m");
+       
         // 120 degrees boundries (+/- 60 degrees)
         float dist = 12;
         Debug.attachArrow(rootNode, new Vector3f(FastMath.sin(FastMath.DEG_TO_RAD * 60) * dist, 1, FastMath.cos(FastMath.DEG_TO_RAD * 60) * dist), ColorRGBA.Yellow, "1");
