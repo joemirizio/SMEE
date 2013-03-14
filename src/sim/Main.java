@@ -88,9 +88,9 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         viewPort.setBackgroundColor(new ColorRGBA(0.7f, 0.8f, 1f, 1f));
 
         // Lighting
-        DirectionalLight sun = new DirectionalLight();
-        sun.setDirection(new Vector3f(-0.1f, -0.7f, -1.0f));
-        rootNode.addLight(sun);
+       // DirectionalLight sun = new DirectionalLight();
+        //sun.setDirection(new Vector3f(-0.1f, -0.7f, -1.0f));
+        //rootNode.addLight(sun);
         
         SpotLight spot = new SpotLight();
         spot.setSpotRange(100f);                           // distance
