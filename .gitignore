@@ -5,3 +5,13 @@
 *.war
 *.ear
 /build/
+
+# jMonkey and NetBean
+MANIFEST.MF
+build.xml
+dist
+liblwjgl.jnilib
+master-application.jnlp
+nbproject/private/private.properties
+openal.dylib
+resources
