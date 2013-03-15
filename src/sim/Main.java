@@ -41,29 +41,29 @@ import sim.cam.Cam;
  */
 public class Main extends SimpleApplication implements ActionListener, SceneProcessor {
 
-    public static AssetManager ASSET_MANAGER;
-    public static Node ROOT_NODE;
+	public static AssetManager ASSET_MANAGER;
+	public static Node ROOT_NODE;
 
-    static final int APP_RES_X = 1024, APP_RES_Y = 768;
-    static final boolean APP_VSYNC = true, APP_FULLSCREEN = false;
-    public static final float INCH_PER_FOOT = 1f / 12f;
+	static final int APP_RES_X = 1024, APP_RES_Y = 768;
+	static final boolean APP_VSYNC = true, APP_FULLSCREEN = false;
+	public static final float INCH_PER_FOOT = 1f / 12f;
 
-    private Cam cam1;
-    private Cam cam2;
+	private Cam cam1;
+	private Cam cam2;
 
-    //public static final Vector3f cam_1_DEFAULT_LOC = new Vector3f(0.3f, -0.75f, 0.55f);
-    //public static final Vector3f cam_2_DEFAULT_LOC = new Vector3f(-0.3f, -0.75f, 0.55f);
-    public static final Vector3f cam_1_DEFAULT_LOC = new Vector3f(0.4f, -0.7f, 0.55f);
-    public static final Vector3f cam_2_DEFAULT_LOC = new Vector3f(-0.4f, -0.7f, 0.55f);
+	//public static final Vector3f cam_1_DEFAULT_LOC = new Vector3f(0.3f, -0.75f, 0.55f);
+	//public static final Vector3f cam_2_DEFAULT_LOC = new Vector3f(-0.3f, -0.75f, 0.55f);
+	public static final Vector3f cam_1_DEFAULT_LOC = new Vector3f(0.4f, -0.7f, 0.55f);
+	public static final Vector3f cam_2_DEFAULT_LOC = new Vector3f(-0.4f, -0.7f, 0.55f);
 
-    // Camera processing
-    private FrameBuffer nfb;
-    //private ByteBuffer bb;
-    //private BufferedImage bi;
+	// Camera processing
+	private FrameBuffer nfb;
+	//private ByteBuffer bb;
+	//private BufferedImage bi;
 
-    Spatial test_child = null;
+	Spatial test_child = null;
 
-	
+
     public static void main(String[] args) {
         /** Application Settings **/
         AppSettings settings = new AppSettings(true);
@@ -93,7 +93,7 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         DirectionalLight sun = new DirectionalLight();
         sun.setDirection(new Vector3f(-0.1f, -0.7f, -1.0f));
         rootNode.addLight(sun);
-        
+
         SpotLight spot = new SpotLight();
         spot.setSpotRange(100f);                           // distance
         spot.setSpotInnerAngle(15f * FastMath.DEG_TO_RAD); // inner light cone (central beam)
@@ -101,7 +101,7 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         spot.setColor(ColorRGBA.Green.mult(1.2f));         // light color
         spot.setPosition(new Vector3f(3f, 7f, 0f));               // shine from one unit above camera loc, -3f, 6f, 0f)
         spot.setDirection(new Vector3f(-1.5f, -2f, 1f));    // shine forward from camera loc
-        rootNode.addLight(spot); 
+        rootNode.addLight(spot);
 
         SpotLight spot1 = new SpotLight();
         spot1.setSpotRange(100f);                           // distance
@@ -110,13 +110,13 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         spot1.setColor(ColorRGBA.Red.mult(1.2f));         // light color
         spot1.setPosition(new Vector3f(-3f, 7f, 0f));               // shine from one unit above camera loc, -3f, 6f, 0f)
         spot1.setDirection(new Vector3f(1.5f, -2f, 1f));      // shine forward from camera loc
-        rootNode.addLight(spot1); 
-                
-          /** Basic shadow for even surfaces */ 
+        rootNode.addLight(spot1);
+
+          /** Basic shadow for even surfaces */
         BasicShadowRenderer bsr = new BasicShadowRenderer(assetManager, 256);
         bsr.setDirection(new Vector3f(-.5f,-.5f,-.5f).normalizeLocal());
-        viewPort.addProcessor(bsr); 
- 
+        viewPort.addProcessor(bsr);
+
         // Initialize Controls and GUI
         this.initControls();
         this.setDisplayFps(false);
@@ -132,13 +132,13 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         /** Setup Test Area **/
         Material unshaded_mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         unshaded_mat.setColor("Color", ColorRGBA.Blue);
-        
+
         // Floor
         Geometry floor = new Geometry("Floor", new Box(Vector3f.ZERO, 15, 0.1f, 15));
         floor.setLocalTranslation(Vector3f.ZERO);
         floor.setMaterial(unshaded_mat);
         rootNode.attachChild(floor);
-        
+
         // Prediction Zone
         Material prediction_line_mat = new Material(assetManager, "Common/MatDefs/Light/Lighting.j3md");//unshaded_mat.clone();
         //prediction_line_mat.setColor("Color", ColorRGBA.Gray);
@@ -174,18 +174,18 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         safe_zone.rotate(FastMath.HALF_PI, 0, 0);
         safe_zone.setMaterial(safe_zone_mat);
         rootNode.attachChild(safe_zone);
-        
-//        /** An unshaded textured cube. 
-// *  Uses texture from jme3-test-data library! */ 
-//Box boxshape1 = new Box(Vector3f.ZERO, 1f,1f,1f); 
-//Geometry cube_tex = new Geometry("A Textured Box", boxshape1); 
-//Material mat_tex = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md"); 
-//Texture tex = assetManager.loadTexture("Interface/Logo/Monkey.jpg"); 
-//mat_tex.setTexture("ColorMap", tex); 
-//cube_tex.setMaterial(mat_tex); 
+
+//        /** An unshaded textured cube.
+// *  Uses texture from jme3-test-data library! */
+//Box boxshape1 = new Box(Vector3f.ZERO, 1f,1f,1f);
+//Geometry cube_tex = new Geometry("A Textured Box", boxshape1);
+//Material mat_tex = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+//Texture tex = assetManager.loadTexture("Interface/Logo/Monkey.jpg");
+//mat_tex.setTexture("ColorMap", tex);
+//cube_tex.setMaterial(mat_tex);
 //rootNode.attachChild(cube_tex);
 //
-///** Illuminated bumpy rock with shiny effect. 
+///** Illuminated bumpy rock with shiny effect.
 // *  Uses Texture from jme3-test-data library! Needs light source! */
 //Sphere rock = new Sphere(32,32, 2f);
 //Geometry rock_shiny = new Geometry("Shiny rock", rock);
@@ -201,18 +201,18 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
 //mat_shiny.setFloat("Shininess", 5f); // shininess from 1-128
 //rock_shiny.setMaterial(mat_shiny);
 //rootNode.attachChild(rock_shiny);
-//        /** An unshaded textured cube. 
-// *  Uses texture from jme3-test-data library! */ 
-//Box boxshape1 = new Box(Vector3f.ZERO, 1f,1f,1f); 
-//Geometry cube_tex = new Geometry("A Textured Box", boxshape1); 
-//Material mat_tex = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md"); 
-//Texture tex = assetManager.loadTexture("mindstorm2.j3o"); 
-//mat_tex.setTexture("ColorMap", tex); 
-//cube_tex.setMaterial(mat_tex); 
-//rootNode.attachChild(cube_tex); 
+//        /** An unshaded textured cube.
+// *  Uses texture from jme3-test-data library! */
+//Box boxshape1 = new Box(Vector3f.ZERO, 1f,1f,1f);
+//Geometry cube_tex = new Geometry("A Textured Box", boxshape1);
+//Material mat_tex = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+//Texture tex = assetManager.loadTexture("mindstorm2.j3o");
+//mat_tex.setTexture("ColorMap", tex);
+//cube_tex.setMaterial(mat_tex);
+//rootNode.attachChild(cube_tex);
 
 // Material mat = assetManager.loadMaterial("Common/Materials/RedColor.j3m");
-       
+
         // 120 degrees boundries (+/- 60 degrees)
         float dist = 12;
         Debug.attachArrow(rootNode, new Vector3f(FastMath.sin(FastMath.DEG_TO_RAD * 60) * dist, 1, FastMath.cos(FastMath.DEG_TO_RAD * 60) * dist), ColorRGBA.Yellow, "1");
@@ -223,9 +223,9 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         cam1.setLocalTranslation(new Vector3f(0, 6, 0));
         cam1.lookAt(cam_1_DEFAULT_LOC);
         rootNode.attachChild(cam1.getMainNode());
-        
+
         cam2 = new Cam("cam2");
-        cam2.setLocalTranslation(new Vector3f(0, 6, 0));		
+        cam2.setLocalTranslation(new Vector3f(0, 6, 0));
         cam2.lookAt(cam_2_DEFAULT_LOC);
         rootNode.attachChild(cam2.getMainNode());
 
@@ -244,8 +244,6 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
 
         //bb = BufferUtils.createByteBuffer(cam.RES_X * cam.RES_Y * 4);
         //bi = new BufferedImage(cam.RES_X, cam.RES_Y, BufferedImage.TYPE_4BYTE_ABGR);
-        
-        
     }
 
     @Override
@@ -285,7 +283,7 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
 
 
         inputManager.addListener(this, new String[]{
-            "CREATE_SLOW", "CREATE_FAST", "CREATE_ARC", 
+            "CREATE_SLOW", "CREATE_FAST", "CREATE_ARC",
             "SPEED_NORMAL", "SPEED_UP", "SPEED_DOWN",
             "SPACE", "RESET", "LEFT_CLICK", "RIGHT_CLICK"});
 
@@ -375,7 +373,7 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
                 vp.setClearFlags(true, true, true);
 
                 nfb = new FrameBuffer(width, height, 1);
-                nfb.setColorBuffer(Format.RGBA8); 
+                nfb.setColorBuffer(Format.RGBA8);
                 nfb.setDepthBuffer(Format.Depth);
 
                 Texture2D txt = new Texture2D(width, height, Format.RGBA8);
@@ -386,7 +384,7 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
                 vp.attachScene(rootNode);
             }
 
-            //if (nfb != null) {				
+            //if (nfb != null) {
                 try {
                     File f = new File("/Users/joemirizio/Desktop/image.png");
                     ImageIO.write(bi, "png", f);

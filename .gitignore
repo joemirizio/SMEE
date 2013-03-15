@@ -15,3 +15,5 @@ master-application.jnlp
 nbproject/private/private.properties
 openal.dylib
 resources
+
+.DS_Store
