@@ -98,7 +98,7 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         spot.setSpotInnerAngle(15f * FastMath.DEG_TO_RAD); // inner light cone (central beam)
         spot.setSpotOuterAngle(35f * FastMath.DEG_TO_RAD); // outer light cone (edge of the light)
         spot.setColor(ColorRGBA.White.mult(10f));         // light color
-        spot.setPosition(cam.getLocation());               // shine from camera loc
+        spot.setPosition(new Vector3f(-3f, 7f, 0f));               // shine from one unit above camera loc, -3f, 6f, 0f)
         spot.setDirection(new Vector3f(-0.1f, -0.7f, -1.0f));    // shine forward from camera loc
         rootNode.addLight(spot); 
 
@@ -107,7 +107,7 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         spot1.setSpotInnerAngle(15f * FastMath.DEG_TO_RAD); // inner light cone (central beam)
         spot1.setSpotOuterAngle(35f * FastMath.DEG_TO_RAD); // outer light cone (edge of the light)
         spot1.setColor(ColorRGBA.Red.mult(10f));         // light color
-        spot1.setPosition(cam.getLocation());               // shine from camera loc
+        spot1.setPosition(new Vector3f(-3f, 7f, 0f));               // shine from one unit above camera loc, -3f, 6f, 0f)
         spot1.setDirection(new Vector3f(-0.4f, -1f, 0.55f));      // shine forward from camera loc
         rootNode.addLight(spot1); 
                 
