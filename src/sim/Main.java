@@ -37,27 +37,27 @@ import sim.cam.Cam;
  */
 public class Main extends SimpleApplication implements ActionListener, SceneProcessor {
 
-    public static AssetManager ASSET_MANAGER;
-    public static Node ROOT_NODE;
+	public static AssetManager ASSET_MANAGER;
+	public static Node ROOT_NODE;
+	
+	static final int APP_RES_X = 1024, APP_RES_Y = 768;
+	static final boolean APP_VSYNC = true, APP_FULLSCREEN = false;
+	public static final float INCH_PER_FOOT = 1f / 12f;
+	
+	private Cam cam1;
+	private Cam cam2;
+	
+	//public static final Vector3f cam_1_DEFAULT_LOC = new Vector3f(0.3f, -0.75f, 0.55f);
+	//public static final Vector3f cam_2_DEFAULT_LOC = new Vector3f(-0.3f, -0.75f, 0.55f);
+	public static final Vector3f cam_1_DEFAULT_LOC = new Vector3f(0.4f, -0.7f, 0.55f);
+	public static final Vector3f cam_2_DEFAULT_LOC = new Vector3f(-0.4f, -0.7f, 0.55f);
 
-    static final int APP_RES_X = 1024, APP_RES_Y = 768;
-    static final boolean APP_VSYNC = true, APP_FULLSCREEN = false;
-    public static final float INCH_PER_FOOT = 1f / 12f;
-
-    private Cam cam1;
-    private Cam cam2;
-
-    //public static final Vector3f cam_1_DEFAULT_LOC = new Vector3f(0.3f, -0.75f, 0.55f);
-    //public static final Vector3f cam_2_DEFAULT_LOC = new Vector3f(-0.3f, -0.75f, 0.55f);
-    public static final Vector3f cam_1_DEFAULT_LOC = new Vector3f(0.4f, -0.7f, 0.55f);
-    public static final Vector3f cam_2_DEFAULT_LOC = new Vector3f(-0.4f, -0.7f, 0.55f);
-
-    // Camera processing
-    private FrameBuffer nfb;
-    //private ByteBuffer bb;
-    //private BufferedImage bi;
-
-    Spatial test_child = null;
+	// Camera processing
+	private FrameBuffer nfb;
+	//private ByteBuffer bb;
+	//private BufferedImage bi;
+	
+	Spatial test_child = null;
 
 	
     public static void main(String[] args) {
@@ -163,10 +163,6 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
 
         //bb = BufferUtils.createByteBuffer(cam.RES_X * cam.RES_Y * 4);
         //bi = new BufferedImage(cam.RES_X, cam.RES_Y, BufferedImage.TYPE_4BYTE_ABGR);
-        
-        // Test object
-        Vector3f test_pos = new Vector3f(10f, 10f, 10f);
-        Debug.attachCube(test_pos, ColorRGBA.Pink, "Kate");
     }
 
     @Override
