@@ -25,6 +25,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Cylinder;
+import com.jme3.shadow.BasicShadowRenderer;
 import com.jme3.system.AppSettings;
 import com.jme3.texture.FrameBuffer;
 import com.jme3.texture.Texture;
@@ -111,7 +112,11 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         spot1.setDirection(new Vector3f(1.5f, -2f, 1f));      // shine forward from camera loc
         rootNode.addLight(spot1); 
                 
-        
+          /** Basic shadow for even surfaces */ 
+        BasicShadowRenderer bsr = new BasicShadowRenderer(assetManager, 256);
+        bsr.setDirection(new Vector3f(-.5f,-.5f,-.5f).normalizeLocal());
+        viewPort.addProcessor(bsr); 
+ 
         // Initialize Controls and GUI
         this.initControls();
         this.setDisplayFps(false);
