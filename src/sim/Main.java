@@ -97,26 +97,20 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         spot.setSpotRange(100f);                           // distance
         spot.setSpotInnerAngle(15f * FastMath.DEG_TO_RAD); // inner light cone (central beam)
         spot.setSpotOuterAngle(35f * FastMath.DEG_TO_RAD); // outer light cone (edge of the light)
-        spot.setColor(ColorRGBA.White.mult(1.3f));         // light color
+        spot.setColor(ColorRGBA.White.mult(10f));         // light color
         spot.setPosition(cam.getLocation());               // shine from camera loc
-        spot.setDirection(new Vector3f(-.1f, 1f, 1f));             // shine forward from camera loc
+        spot.setDirection(new Vector3f(-0.1f, -0.7f, -1.0f));    // shine forward from camera loc
         rootNode.addLight(spot); 
 
         SpotLight spot1 = new SpotLight();
         spot1.setSpotRange(100f);                           // distance
-        spot1.setSpotInnerAngle(25f * FastMath.DEG_TO_RAD); // inner light cone (central beam)
-        spot1.setSpotOuterAngle(15f * FastMath.DEG_TO_RAD); // outer light cone (edge of the light)
-        spot1.setColor(ColorRGBA.White.mult(1.3f));         // light color
+        spot1.setSpotInnerAngle(15f * FastMath.DEG_TO_RAD); // inner light cone (central beam)
+        spot1.setSpotOuterAngle(35f * FastMath.DEG_TO_RAD); // outer light cone (edge of the light)
+        spot1.setColor(ColorRGBA.Red.mult(10f));         // light color
         spot1.setPosition(cam.getLocation());               // shine from camera loc
-        spot1.setDirection(new Vector3f(.1f, 1f, 1f));             // shine forward from camera loc
+        spot1.setDirection(new Vector3f(-0.4f, -1f, 0.55f));      // shine forward from camera loc
         rootNode.addLight(spot1); 
-        
-        //rootNode.setShadowMode(ShadowMode.Off);        // reset all
-        //wall.setShadowMode(ShadowMode.CastAndReceive); // normal behaviour (slow)
-        //floor.setShadowMode(ShadowMode.Receive);       // can't see shadow cast below floor anyway...
-        //airplane.setShadowMode(ShadowMode.Cast);       // nothing casts shadows onto airplane anyway...
-        //ghost.setShadowMode(ShadowMode.Off);           // ghost is translucent anyway...
-        
+                
         
         // Initialize Controls and GUI
         this.initControls();
@@ -139,9 +133,14 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         floor.setLocalTranslation(Vector3f.ZERO);
         floor.setMaterial(unshaded_mat);
         rootNode.attachChild(floor);
+        
         // Prediction Zone
-        Material prediction_line_mat = unshaded_mat.clone();
-        prediction_line_mat.setColor("Color", ColorRGBA.Gray);
+        Material prediction_line_mat = new Material(assetManager, "Common/MatDefs/Light/Lighting.j3md");//unshaded_mat.clone();
+        //prediction_line_mat.setColor("Color", ColorRGBA.Gray);
+        prediction_line_mat.setBoolean("UseMaterialColors",true);  // needed for shininess
+        prediction_line_mat.setColor("Specular", ColorRGBA.White); // needed for shininess
+        prediction_line_mat.setColor("Diffuse",  ColorRGBA.White); // needed for shininess
+        prediction_line_mat.setFloat("Shininess", 20f); // shininess from 1-128
         Cylinder prediction_line_cylinder = new Cylinder(10, 30, 12, 0.3f, true);
         prediction_line_cylinder.setMode(Mode.Lines);
         Geometry prediction_line = new Geometry("PredictionZone", prediction_line_cylinder);
@@ -150,18 +149,22 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         rootNode.attachChild(prediction_line);
         // Alert Zone
         Material alert_zone_mat = new Material(assetManager, "Common/MatDefs/Light/Lighting.j3md");
-//        alert_zone_mat.setColor("Color", ColorRGBA.Red);
+        //alert_zone_mat.setColor("Color", ColorRGBA.Red); //this line to become setTexture? file to pull in?
         alert_zone_mat.setBoolean("UseMaterialColors",true);  // needed for shininess
         alert_zone_mat.setColor("Specular", ColorRGBA.White); // needed for shininess
-        alert_zone_mat.setColor("Diffuse",  ColorRGBA.Red); // needed for shininess
-        alert_zone_mat.setFloat("Shininess", 50f); // shininess from 1-128
+        alert_zone_mat.setColor("Diffuse",  ColorRGBA.White); // needed for shininess
+        alert_zone_mat.setFloat("Shininess", 20f); // shininess from 1-128
         Geometry alert_zone = new Geometry("AlertZone", new Cylinder(2, 30, 10, 0.5f, true));
         alert_zone.rotate(FastMath.HALF_PI, 0, 0);
         alert_zone.setMaterial(alert_zone_mat);
         rootNode.attachChild(alert_zone);
         // Safe Zone
-        Material safe_zone_mat = unshaded_mat.clone();
-        safe_zone_mat.setColor("Color", ColorRGBA.Green);
+        Material safe_zone_mat = new Material(assetManager, "Common/MatDefs/Light/Lighting.j3md");//unshaded_mat.clone();
+        //safe_zone_mat.setColor("Color", ColorRGBA.Green);
+        safe_zone_mat.setBoolean("UseMaterialColors",true);  // needed for shininess
+        safe_zone_mat.setColor("Specular", ColorRGBA.White); // needed for shininess
+        safe_zone_mat.setColor("Diffuse",  ColorRGBA.White); // needed for shininess
+        safe_zone_mat.setFloat("Shininess", 20f); // shininess from 1-128
         Geometry safe_zone = new Geometry("SafeZone", new Cylinder(2, 30, 5, 0.6f, true));
         safe_zone.rotate(FastMath.HALF_PI, 0, 0);
         safe_zone.setMaterial(safe_zone_mat);
@@ -237,9 +240,7 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         //bb = BufferUtils.createByteBuffer(cam.RES_X * cam.RES_Y * 4);
         //bi = new BufferedImage(cam.RES_X, cam.RES_Y, BufferedImage.TYPE_4BYTE_ABGR);
         
-        // Test object
-        Vector3f test_pos = new Vector3f(10f, 10f, 10f);
-        Debug.attachCube(test_pos, ColorRGBA.Pink, "Kate");
+        
     }
 
     @Override
