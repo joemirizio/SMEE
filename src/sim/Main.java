@@ -23,6 +23,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Cylinder;
+import com.jme3.shadow.BasicShadowRenderer;
 import com.jme3.system.AppSettings;
 import com.jme3.texture.FrameBuffer;
 import com.jme3.util.BufferUtils;
@@ -30,6 +31,7 @@ import com.jme3.util.Screenshots;
 import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 import sim.cam.Cam;
+import sim.scenario.Scenario;
 
 /**
  * test
@@ -44,9 +46,17 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
 	static final boolean APP_VSYNC = true, APP_FULLSCREEN = false;
 	public static final float INCH_PER_FOOT = 1f / 12f;
 	
-	private Cam cam1;
-	private Cam cam2;
-	
+        public Scenario scenario;
+        
+        /** Flooring **/
+        public static Geometry floor;
+        public static Geometry prediction_line;
+        public static Geometry alert_zone;
+        public static Geometry safe_zone;
+        
+        /** Cameras**/
+	public static Cam cam1;
+	public static Cam cam2;
 	//public static final Vector3f cam_1_DEFAULT_LOC = new Vector3f(0.3f, -0.75f, 0.55f);
 	//public static final Vector3f cam_2_DEFAULT_LOC = new Vector3f(-0.3f, -0.75f, 0.55f);
 	public static final Vector3f cam_1_DEFAULT_LOC = new Vector3f(0.4f, -0.7f, 0.55f);
@@ -83,17 +93,18 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
 
         // Background color
         viewPort.setBackgroundColor(new ColorRGBA(0.7f, 0.8f, 1f, 1f));
-
-        // Lighting
-        DirectionalLight sun = new DirectionalLight();
-        sun.setDirection(new Vector3f(-0.1f, -0.7f, -1.0f));
-        rootNode.addLight(sun);
 		
         // Initialize Controls and GUI
         this.initControls();
         this.setDisplayFps(false);
         this.setDisplayStatView(false);
         guiNode.detachAllChildren();
+        
+        // Lighting
+        /** Basic shadow for even surfaces */ 
+        BasicShadowRenderer bsr = new BasicShadowRenderer(assetManager, 256);
+        bsr.setDirection(new Vector3f(-.5f,-.5f,-.5f).normalizeLocal());
+        viewPort.addProcessor(bsr);
 
         // Initialize Main Camera
         flyCam.setMoveSpeed(20);
@@ -102,36 +113,28 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         cam.lookAt(new Vector3f(-5, 0, 5), Vector3f.UNIT_Y);
 
         /** Setup Test Area **/
-        Material unshaded_mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-        unshaded_mat.setColor("Color", ColorRGBA.Blue);
         // Floor
-        Geometry floor = new Geometry("Floor", new Box(Vector3f.ZERO, 15, 0.1f, 15));
+        floor = new Geometry("Floor", new Box(Vector3f.ZERO, 15, 0.1f, 15));
         floor.setLocalTranslation(Vector3f.ZERO);
-        floor.setMaterial(unshaded_mat);
         rootNode.attachChild(floor);
+        
         // Prediction Zone
-        Material prediction_line_mat = unshaded_mat.clone();
-        prediction_line_mat.setColor("Color", ColorRGBA.Gray);
         Cylinder prediction_line_cylinder = new Cylinder(10, 30, 12, 0.3f, true);
         prediction_line_cylinder.setMode(Mode.Lines);
-        Geometry prediction_line = new Geometry("PredictionZone", prediction_line_cylinder);
+        prediction_line = new Geometry("PredictionZone", prediction_line_cylinder);
         prediction_line.rotate(FastMath.HALF_PI, 0, 0);
-        prediction_line.setMaterial(prediction_line_mat);
         rootNode.attachChild(prediction_line);
+        
         // Alert Zone
-        Material alert_zone_mat = unshaded_mat.clone();
-        alert_zone_mat.setColor("Color", ColorRGBA.Red);
-        Geometry alert_zone = new Geometry("AlertZone", new Cylinder(2, 30, 10, 0.5f, true));
+        alert_zone = new Geometry("AlertZone", new Cylinder(2, 30, 10, 0.5f, true));
         alert_zone.rotate(FastMath.HALF_PI, 0, 0);
-        alert_zone.setMaterial(alert_zone_mat);
         rootNode.attachChild(alert_zone);
+        
         // Safe Zone
-        Material safe_zone_mat = unshaded_mat.clone();
-        safe_zone_mat.setColor("Color", ColorRGBA.Green);
-        Geometry safe_zone = new Geometry("SafeZone", new Cylinder(2, 30, 5, 0.6f, true));
+        safe_zone = new Geometry("SafeZone", new Cylinder(2, 30, 5, 0.6f, true));
         safe_zone.rotate(FastMath.HALF_PI, 0, 0);
-        safe_zone.setMaterial(safe_zone_mat);
         rootNode.attachChild(safe_zone);
+        
         // 120 degrees boundries (+/- 60 degrees)
         float dist = 12;
         Debug.attachArrow(rootNode, new Vector3f(FastMath.sin(FastMath.DEG_TO_RAD * 60) * dist, 1, FastMath.cos(FastMath.DEG_TO_RAD * 60) * dist), ColorRGBA.Yellow, "1");
@@ -139,13 +142,9 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
 
         /** Initilize Cameras **/
         cam1 = new Cam("cam1");
-        cam1.setLocalTranslation(new Vector3f(0, 6, 0));
-        cam1.lookAt(cam_1_DEFAULT_LOC);
         rootNode.attachChild(cam1.getMainNode());
         
         cam2 = new Cam("cam2");
-        cam2.setLocalTranslation(new Vector3f(0, 6, 0));		
-        cam2.lookAt(cam_2_DEFAULT_LOC);
         rootNode.attachChild(cam2.getMainNode());
 
         /** Camera Viewports **/
@@ -160,6 +159,11 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         cam_vp1.setClearFlags(true, true, true);
         cam_vp1.attachScene(rootNode);
         cam_vp1.setBackgroundColor(ColorRGBA.Pink);
+        
+        
+        // Set default scenario
+        scenario = new Scenario(this);
+        scenario.runScenario(Scenario.DEFAULT_SCENARIO);
 
         //bb = BufferUtils.createByteBuffer(cam.RES_X * cam.RES_Y * 4);
         //bi = new BufferedImage(cam.RES_X, cam.RES_Y, BufferedImage.TYPE_4BYTE_ABGR);
@@ -199,12 +203,16 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
 
         inputManager.addMapping("LEFT_CLICK", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
         inputManager.addMapping("RIGHT_CLICK", new MouseButtonTrigger(MouseInput.BUTTON_RIGHT));
-
+        
+        inputManager.addMapping("PREV_SCENARIO", new KeyTrigger(KeyInput.KEY_LBRACKET));
+        inputManager.addMapping("NEXT_SCENARIO", new KeyTrigger(KeyInput.KEY_RBRACKET));
 
         inputManager.addListener(this, new String[]{
             "CREATE_SLOW", "CREATE_FAST", "CREATE_ARC", 
             "SPEED_NORMAL", "SPEED_UP", "SPEED_DOWN",
-            "SPACE", "RESET", "LEFT_CLICK", "RIGHT_CLICK"});
+            "SPACE", "RESET", "LEFT_CLICK", "RIGHT_CLICK",
+            "PREV_SCENARIO", "NEXT_SCENARIO"
+        });
 
         /** Debug **/
         inputManager.addMapping("DEBUG_PHYSICS", new KeyTrigger(KeyInput.KEY_P));
@@ -213,8 +221,8 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
 
     private Spatial createTestChild(TestChild.Type test_child_type) {
         // Load and scale model
-        Spatial child = assetManager.loadModel("Models/mindstorm2.j3o");
-        child.scale(0.05f);
+        Spatial child = assetManager.loadModel("Models/mindstorm.j3o");
+        child.scale(0.25f);
         child.setLocalTranslation(new Vector3f(0, 0.3f, 0));
         // Set respective control
         TestChildControl child_control = null;
@@ -245,8 +253,7 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
 
         // Reset camera views
         if (name.equals("RESET") && is_pressed) {
-                cam1.lookAt(cam_1_DEFAULT_LOC);
-                cam2.lookAt(cam_2_DEFAULT_LOC);
+            scenario.runScenario();
         }
 
         // Reset camera views
@@ -268,6 +275,13 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
                 test_child = this.createTestChild(TestChild.Type.FastRadial);
         } else if (name.equals("CREATE_ARC") && is_pressed) {
                 test_child = this.createTestChild(TestChild.Type.TangentialArc);
+        }
+        
+        // Change scenarios
+        if (name.equals("PREV_SCENARIO") && is_pressed) {
+            int scenario_num = scenario.runNextScenario();
+        } else if (name.equals("NEXT_SCENARIO") && is_pressed) {
+            int scenario_num = scenario.runPrevScenario();
         }
 
         // Process camera viewport

@@ -21,14 +21,20 @@ public class Cam {
 
 	public static int RES_X = 640, RES_Y = 480;
 	public static float NEAR = 2.62467f, FAR = 13.1234f;
+        public static final int DEFAULT_VERTICAL_FOV = 56;
 
-	public Cam(String name) {
+        public int vert_fov;
+        
+        public Cam(String name) {
+            this(name, DEFAULT_VERTICAL_FOV);
+        }
+	public Cam(String name, int vert_fov) {
 		this.main_node = new Node(name);
-
+                
 		// Camera
 		this.camera = new Camera(RES_X, RES_Y);
-		this.camera.setFrustumPerspective(56, RES_X / RES_Y, NEAR, FAR); // 56 VFOV, 69 horizontal FOV
-		// Geometry
+		this.setVerticalFOV(vert_fov);
+                // Geometry
 		Material unshaded_mat = new Material(Main.ASSET_MANAGER, "Common/MatDefs/Misc/Unshaded.j3md");
 		unshaded_mat.setColor("Color", ColorRGBA.Black);
 
@@ -38,9 +44,26 @@ public class Cam {
 		cam_body.setMaterial(unshaded_mat);
 		this.main_node.attachChild(cam_body);
 
-		CamControl cam_control = new CamControl(this.camera, this.main_node);
-		this.main_node.addControl(cam_control);
+                this.resetCameraControl();
 	}
+        
+        public void setVerticalFOV(int vert_fov) {
+            this.vert_fov = vert_fov;
+            this.camera.setFrustumPerspective(this.vert_fov, RES_X / RES_Y, NEAR, FAR); // 56 VFOV, 69 horizontal FOV
+            this.resetCameraControl();
+        }
+        
+        public CamControl resetCameraControl() {
+            CamControl cam_ctrl = this.main_node.getControl(CamControl.class);
+            if (cam_ctrl != null) {
+                cam_ctrl.removeFrustum();
+                this.main_node.removeControl(CamControl.class);
+            }
+            
+            CamControl cam_control = new CamControl(this.camera, this.main_node);
+            this.main_node.addControl(cam_control);
+            return cam_control;
+        }
 
 
 	public Node getMainNode() {

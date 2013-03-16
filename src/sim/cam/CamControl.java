@@ -90,6 +90,10 @@ public class CamControl extends AbstractControl {
 		wire_frustum.update(frustum_pts);
 	}
 	
+        public void removeFrustum() {
+            Main.ROOT_NODE.detachChild(this.frustum);
+        }
+        
 	@Override
 	protected void controlUpdate(float tpf) {
 		
