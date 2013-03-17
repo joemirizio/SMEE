@@ -111,6 +111,9 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         flyCam.setEnabled(true);
         cam.setLocation(new Vector3f(20, 20, -20));
         cam.lookAt(new Vector3f(-5, 0, 5), Vector3f.UNIT_Y);
+        
+        //cam.setLocation(new Vector3f(0, 25, -2));   //top down view of flycam
+        //cam.lookAt(new Vector3f(0, 0, 0), Vector3f.UNIT_Y);   //looking at origin
 
         /** Setup Test Area **/
         // Floor
