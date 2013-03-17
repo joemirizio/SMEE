@@ -38,7 +38,7 @@ public class Cam {
 		Material unshaded_mat = new Material(Main.ASSET_MANAGER, "Common/MatDefs/Misc/Unshaded.j3md");
 		unshaded_mat.setColor("Color", ColorRGBA.Black);
 
-		Box cam_body_box = new Box(11f, 1.5f , 2.5f);
+		Box cam_body_box = new Box(1f, 1.5f , 4f);
 		Geometry cam_body = new Geometry("CamBody", cam_body_box);
 		cam_body.scale(Main.INCH_PER_FOOT);
 		cam_body.setMaterial(unshaded_mat);
