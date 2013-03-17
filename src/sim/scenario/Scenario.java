@@ -90,8 +90,121 @@ public class Scenario implements ActionListener {
      * (Remember to change SCENARIO_COUNT when more are added)
     /* -----------------------------------------------------------------------*/
     public void scenario1() {
-        // Lighting
+        // Lighting - 2 Lights spaced out
+        DirectionalLight sun = new DirectionalLight();
+        sun.setDirection(new Vector3f(-0.1f, -0.7f, -1.0f));
+        sun.setColor(ColorRGBA.White.mult(.7f));
+        this.addLight(sun);
+                
+        SpotLight spot = new SpotLight();
+        spot.setSpotRange(20f);                           // distance
+        spot.setSpotInnerAngle(5f * FastMath.DEG_TO_RAD); // inner light cone (central beam)
+        spot.setSpotOuterAngle(500f * FastMath.DEG_TO_RAD); // outer light cone (edge of the light)
+        spot.setColor(ColorRGBA.White.mult(light_intensity));         // light color
+        spot.setPosition(new Vector3f(-3f, 6f, 0f));               // shine from camera loc
+        spot.setDirection(new Vector3f(.5f, -5f, 6f));    // shine forward from camera loc
+        this.addLight(spot); 
+
+        SpotLight spot1 = new SpotLight();
+        spot1.setSpotRange(20f);                           // distance
+        spot1.setSpotInnerAngle(5f * FastMath.DEG_TO_RAD); // inner light cone (central beam)
+        spot1.setSpotOuterAngle(500f * FastMath.DEG_TO_RAD); // outer light cone (edge of the light)
+        spot1.setColor(ColorRGBA.White.mult(light_intensity));         // light color
+        spot1.setPosition(new Vector3f(3f, 6f, 0f));               // shine from camera loc
+        spot1.setDirection(new Vector3f(-.5f, -5f, 6f));      // shine forward from camera loc
+        this.addLight(spot1);   
         
+        // Flooring - Min shininess
+        Material flooring_mat = new Material(Main.ASSET_MANAGER, "Common/MatDefs/Light/Lighting.j3md");//unshaded_mat.clone();
+        flooring_mat.setBoolean("UseMaterialColors",true);
+        flooring_mat.setColor("Diffuse",  ColorRGBA.Blue); // <--- This is the color
+        flooring_mat.setColor("Specular", ColorRGBA.White);
+        flooring_mat.setFloat("Shininess",2f); // shininess from 1-128
+        this.setZoneMaterial(Zone.FLOOR, flooring_mat);
+        
+        Material prediction_line_mat = flooring_mat.clone(); // Cloning copies all properties, so just change what you need
+        prediction_line_mat.setColor("Diffuse",  ColorRGBA.Gray);
+        this.setZoneMaterial(Zone.PREDICTION_LINE, prediction_line_mat);
+        
+        Material alert_zone_mat = flooring_mat.clone();
+        alert_zone_mat.setColor("Diffuse", ColorRGBA.Red);
+        this.setZoneMaterial(Zone.ALERT_ZONE, alert_zone_mat);
+
+        Material safe_zone_mat = flooring_mat.clone();
+        safe_zone_mat.setColor("Diffuse", ColorRGBA.Green);
+        this.setZoneMaterial(Zone.SAFE_ZONE, safe_zone_mat);
+
+        
+        // Camera - 2 Cameras at center
+        this.main_app.cam1.setVerticalFOV(56);
+        this.main_app.cam1.setLocalTranslation(new Vector3f(-.5f, 5.75f, 0f));
+        this.main_app.cam1.lookAt(new Vector3f(0.3f,-0.7f,0.55f));
+        
+        this.main_app.cam2.setVerticalFOV(56);
+        this.main_app.cam2.setLocalTranslation(new Vector3f(0.5f, 5.75f, 0f));	
+        this.main_app.cam2.lookAt(new Vector3f(-0.3f, -0.7f, 0.55f));
+
+    }
+    
+    public void scenario2() {
+        // Lighting - 2 Lights 
+        DirectionalLight sun = new DirectionalLight();
+        sun.setDirection(new Vector3f(-0.1f, -0.7f, -1.0f));
+        sun.setColor(ColorRGBA.White.mult(.7f));
+        this.addLight(sun);
+                
+        SpotLight spot = new SpotLight();
+        spot.setSpotRange(20f);                           // distance
+        spot.setSpotInnerAngle(5f * FastMath.DEG_TO_RAD); // inner light cone (central beam)
+        spot.setSpotOuterAngle(500f * FastMath.DEG_TO_RAD); // outer light cone (edge of the light)
+        spot.setColor(ColorRGBA.White.mult(light_intensity));         // light color
+        spot.setPosition(new Vector3f(-3f, 6f, 0f));               // shine from camera loc
+        spot.setDirection(new Vector3f(.5f, -5f, 6f));    // shine forward from camera loc
+        this.addLight(spot); 
+
+        SpotLight spot1 = new SpotLight();
+        spot1.setSpotRange(20f);                           // distance
+        spot1.setSpotInnerAngle(5f * FastMath.DEG_TO_RAD); // inner light cone (central beam)
+        spot1.setSpotOuterAngle(500f * FastMath.DEG_TO_RAD); // outer light cone (edge of the light)
+        spot1.setColor(ColorRGBA.White.mult(light_intensity));         // light color
+        spot1.setPosition(new Vector3f(3f, 6f, 0f));               // shine from camera loc
+        spot1.setDirection(new Vector3f(-.5f, -5f, 6f));      // shine forward from camera loc
+        this.addLight(spot1);   
+
+        // Flooring - Max shininess
+        Material flooring_mat = new Material(Main.ASSET_MANAGER, "Common/MatDefs/Light/Lighting.j3md");//unshaded_mat.clone();
+        flooring_mat.setBoolean("UseMaterialColors",true);
+        flooring_mat.setColor("Diffuse",  ColorRGBA.Blue); // <--- This is the color
+        flooring_mat.setColor("Specular", ColorRGBA.White);
+        flooring_mat.setFloat("Shininess",8f); // shininess from 1-128
+        this.setZoneMaterial(Zone.FLOOR, flooring_mat);
+        
+        Material prediction_line_mat = flooring_mat.clone(); // Cloning copies all properties, so just change what you need
+        prediction_line_mat.setColor("Diffuse",  ColorRGBA.Gray);
+        this.setZoneMaterial(Zone.PREDICTION_LINE, prediction_line_mat);
+        
+        Material alert_zone_mat = flooring_mat.clone();
+        alert_zone_mat.setColor("Diffuse", ColorRGBA.Red);
+        this.setZoneMaterial(Zone.ALERT_ZONE, alert_zone_mat);
+
+        Material safe_zone_mat = flooring_mat.clone();
+        safe_zone_mat.setColor("Diffuse", ColorRGBA.Green);
+        this.setZoneMaterial(Zone.SAFE_ZONE, safe_zone_mat); 
+        
+        // Camera - 2 Cameras spaced out
+        this.main_app.cam1.setVerticalFOV(56);
+        this.main_app.cam1.setLocalTranslation(new Vector3f(-3f, 6f, 0f));
+        this.main_app.cam1.lookAt(new Vector3f(0.3f,-0.7f,0.55f));
+        
+        this.main_app.cam2.setVerticalFOV(56);
+        this.main_app.cam2.setLocalTranslation(new Vector3f(3f, 6f, 0f));	
+        this.main_app.cam2.lookAt(new Vector3f(-0.3f, -0.7f, 0.55f));
+
+    }
+    
+    public void scenario3() {
+      
+        // Lighting - 2 lights
         DirectionalLight sun = new DirectionalLight();
         sun.setDirection(new Vector3f(-0.1f, -0.7f, -1.0f));
         sun.setColor(ColorRGBA.White.mult(.7f));
@@ -115,12 +228,12 @@ public class Scenario implements ActionListener {
         spot1.setDirection(new Vector3f(-.5f, -5f, 6f));      // shine forward from camera loc
         this.addLight(spot1); 
         
-        // Flooring
+        // Flooring - min shininess
         Material flooring_mat = new Material(Main.ASSET_MANAGER, "Common/MatDefs/Light/Lighting.j3md");//unshaded_mat.clone();
         flooring_mat.setBoolean("UseMaterialColors",true);
         flooring_mat.setColor("Diffuse",  ColorRGBA.Blue); // <--- This is the color
         flooring_mat.setColor("Specular", ColorRGBA.White);
-        flooring_mat.setFloat("Shininess", 0f); // shininess from 1-128
+        flooring_mat.setFloat("Shininess",2f); // shininess from 1-128
         this.setZoneMaterial(Zone.FLOOR, flooring_mat);
         
         Material prediction_line_mat = flooring_mat.clone(); // Cloning copies all properties, so just change what you need
@@ -134,35 +247,148 @@ public class Scenario implements ActionListener {
         Material safe_zone_mat = flooring_mat.clone();
         safe_zone_mat.setColor("Diffuse", ColorRGBA.Green);
         this.setZoneMaterial(Zone.SAFE_ZONE, safe_zone_mat);
-        
-        // Camera
+
+        // Camera - 2 cameras spaced out
         this.main_app.cam1.setVerticalFOV(56);
-        this.main_app.cam1.setLocalTranslation(new Vector3f(-7f, 5f, 3f));
-        this.main_app.cam1.lookAt(new Vector3f(6f,-4f,2.5f));
+        this.main_app.cam1.setLocalTranslation(new Vector3f(-3f, 6f, 0f));
+        this.main_app.cam1.lookAt(new Vector3f(0.3f,-0.7f,0.55f));
         
         this.main_app.cam2.setVerticalFOV(56);
-        this.main_app.cam2.setLocalTranslation(new Vector3f(7f, 5f, 3f));		
-        this.main_app.cam2.lookAt(new Vector3f(-6f, -4f, 2.5f));
-    }
-    
-    public void scenario2() {
-        // Add scenario logic here
-    }
-    
-    public void scenario3() {
-        // Add scenario logic here
+        this.main_app.cam2.setLocalTranslation(new Vector3f(3f, 6f, 0f));	
+        this.main_app.cam2.lookAt(new Vector3f(-0.3f, -0.7f, 0.55f));
+
     }
     
     public void scenario4() {
-        // Add scenario logic here
+        // Lighting - ambient
+        DirectionalLight sun = new DirectionalLight();
+        sun.setDirection(new Vector3f(-0.1f, -0.7f, -1.0f));
+        sun.setColor(ColorRGBA.White.mult(.7f));
+        this.addLight(sun);
+        
+        // Flooring - min shininess
+        Material flooring_mat = new Material(Main.ASSET_MANAGER, "Common/MatDefs/Light/Lighting.j3md");//unshaded_mat.clone();
+        flooring_mat.setBoolean("UseMaterialColors",true);
+        flooring_mat.setColor("Diffuse",  ColorRGBA.Blue); // <--- This is the color
+        flooring_mat.setColor("Specular", ColorRGBA.White);
+        flooring_mat.setFloat("Shininess",2f); // shininess from 1-128
+        this.setZoneMaterial(Zone.FLOOR, flooring_mat);
+        
+        Material prediction_line_mat = flooring_mat.clone(); // Cloning copies all properties, so just change what you need
+        prediction_line_mat.setColor("Diffuse",  ColorRGBA.Gray);
+        this.setZoneMaterial(Zone.PREDICTION_LINE, prediction_line_mat);
+        
+        Material alert_zone_mat = flooring_mat.clone();
+        alert_zone_mat.setColor("Diffuse", ColorRGBA.Red);
+        this.setZoneMaterial(Zone.ALERT_ZONE, alert_zone_mat);
+
+        Material safe_zone_mat = flooring_mat.clone();
+        safe_zone_mat.setColor("Diffuse", ColorRGBA.Green);
+        this.setZoneMaterial(Zone.SAFE_ZONE, safe_zone_mat);
+
+        // Camera - 2 cameras spaced out
+        this.main_app.cam1.setVerticalFOV(56);
+        this.main_app.cam1.setLocalTranslation(new Vector3f(-3f, 6f, 0f));
+        this.main_app.cam1.lookAt(new Vector3f(0.3f,-0.7f,0.55f));
+        
+        this.main_app.cam2.setVerticalFOV(56);
+        this.main_app.cam2.setLocalTranslation(new Vector3f(3f, 6f, 0f));	
+        this.main_app.cam2.lookAt(new Vector3f(-0.3f, -0.7f, 0.55f));
+
     }
     
     public void scenario5() {
-        // Add scenario logic here
+        // Lighting - 2 lights
+        DirectionalLight sun = new DirectionalLight();
+        sun.setDirection(new Vector3f(-0.1f, -0.7f, -1.0f));
+        sun.setColor(ColorRGBA.White.mult(.7f));
+        this.addLight(sun);
+                
+        SpotLight spot = new SpotLight();
+        spot.setSpotRange(20f);                           // distance
+        spot.setSpotInnerAngle(5f * FastMath.DEG_TO_RAD); // inner light cone (central beam)
+        spot.setSpotOuterAngle(500f * FastMath.DEG_TO_RAD); // outer light cone (edge of the light)
+        spot.setColor(ColorRGBA.White.mult(light_intensity));         // light color
+        spot.setPosition(new Vector3f(-3f, 6f, 0f));               // shine from camera loc
+        spot.setDirection(new Vector3f(.5f, -5f, 6f));    // shine forward from camera loc
+        this.addLight(spot); 
+
+        SpotLight spot1 = new SpotLight();
+        spot1.setSpotRange(20f);                           // distance
+        spot1.setSpotInnerAngle(5f * FastMath.DEG_TO_RAD); // inner light cone (central beam)
+        spot1.setSpotOuterAngle(500f * FastMath.DEG_TO_RAD); // outer light cone (edge of the light)
+        spot1.setColor(ColorRGBA.White.mult(light_intensity));         // light color
+        spot1.setPosition(new Vector3f(3f, 6f, 0f));               // shine from camera loc
+        spot1.setDirection(new Vector3f(-.5f, -5f, 6f));      // shine forward from camera loc
+        this.addLight(spot1); 
+        
+        // Flooring - max shininess
+        Material flooring_mat = new Material(Main.ASSET_MANAGER, "Common/MatDefs/Light/Lighting.j3md");//unshaded_mat.clone();
+        flooring_mat.setBoolean("UseMaterialColors",true);
+        flooring_mat.setColor("Diffuse",  ColorRGBA.Blue); // <--- This is the color
+        flooring_mat.setColor("Specular", ColorRGBA.White);
+        flooring_mat.setFloat("Shininess",8f); // shininess from 1-128
+        this.setZoneMaterial(Zone.FLOOR, flooring_mat);
+        
+        Material prediction_line_mat = flooring_mat.clone(); // Cloning copies all properties, so just change what you need
+        prediction_line_mat.setColor("Diffuse",  ColorRGBA.Gray);
+        this.setZoneMaterial(Zone.PREDICTION_LINE, prediction_line_mat);
+        
+        Material alert_zone_mat = flooring_mat.clone();
+        alert_zone_mat.setColor("Diffuse", ColorRGBA.Red);
+        this.setZoneMaterial(Zone.ALERT_ZONE, alert_zone_mat);
+
+        Material safe_zone_mat = flooring_mat.clone();
+        safe_zone_mat.setColor("Diffuse", ColorRGBA.Green);
+        this.setZoneMaterial(Zone.SAFE_ZONE, safe_zone_mat);
+
+        // Camera - 2 cameras at center
+        this.main_app.cam1.setVerticalFOV(56);
+        this.main_app.cam1.setLocalTranslation(new Vector3f(-.5f, 5.75f, 0f));
+        this.main_app.cam1.lookAt(new Vector3f(0.3f,-0.7f,0.55f));
+        
+        this.main_app.cam2.setVerticalFOV(56);
+        this.main_app.cam2.setLocalTranslation(new Vector3f(0.5f, 5.75f, 0f));	
+        this.main_app.cam2.lookAt(new Vector3f(-0.3f, -0.7f, 0.55f));
+
     }
     
     public void scenario6() {
-        // Add scenario logic here
+        // Lighting - ambient
+        DirectionalLight sun = new DirectionalLight();
+        sun.setDirection(new Vector3f(-0.1f, -0.7f, -1.0f));
+        sun.setColor(ColorRGBA.White.mult(.7f));
+        this.addLight(sun);
+        
+        // Flooring - min shininess
+        Material flooring_mat = new Material(Main.ASSET_MANAGER, "Common/MatDefs/Light/Lighting.j3md");//unshaded_mat.clone();
+        flooring_mat.setBoolean("UseMaterialColors",true);
+        flooring_mat.setColor("Diffuse",  ColorRGBA.Blue); // <--- This is the color
+        flooring_mat.setColor("Specular", ColorRGBA.White);
+        flooring_mat.setFloat("Shininess",2f); // shininess from 1-128
+        this.setZoneMaterial(Zone.FLOOR, flooring_mat);
+        
+        Material prediction_line_mat = flooring_mat.clone(); // Cloning copies all properties, so just change what you need
+        prediction_line_mat.setColor("Diffuse",  ColorRGBA.Gray);
+        this.setZoneMaterial(Zone.PREDICTION_LINE, prediction_line_mat);
+        
+        Material alert_zone_mat = flooring_mat.clone();
+        alert_zone_mat.setColor("Diffuse", ColorRGBA.Red);
+        this.setZoneMaterial(Zone.ALERT_ZONE, alert_zone_mat);
+
+        Material safe_zone_mat = flooring_mat.clone();
+        safe_zone_mat.setColor("Diffuse", ColorRGBA.Green);
+        this.setZoneMaterial(Zone.SAFE_ZONE, safe_zone_mat);
+
+        // Camera - 2 cameras at center
+        this.main_app.cam1.setVerticalFOV(56);
+        this.main_app.cam1.setLocalTranslation(new Vector3f(-.5f, 5.75f, 0f));
+        this.main_app.cam1.lookAt(new Vector3f(0.3f,-0.7f,0.55f));
+        
+        this.main_app.cam2.setVerticalFOV(56);
+        this.main_app.cam2.setLocalTranslation(new Vector3f(0.5f, 5.75f, 0f));	
+        this.main_app.cam2.lookAt(new Vector3f(-0.3f, -0.7f, 0.55f));
+
     }
     
     /* -----------------------------------------------------------------------*/
