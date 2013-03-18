@@ -45,6 +45,19 @@ public class Cam {
 		this.main_node.attachChild(cam_body);
 
                 this.resetCameraControl();
+                
+                Material unshaded_mat2 = new Material(Main.ASSET_MANAGER, "Common/MatDefs/Misc/Unshaded.j3md");
+                unshaded_mat2.setColor("Color", ColorRGBA.Gray);
+              
+                Box light_body_box = new Box(1.5f, 3f,2f);
+                Geometry light_body = new Geometry("LightBody", light_body_box);
+		light_body.scale(Main.INCH_PER_FOOT);
+		light_body.setMaterial(unshaded_mat2);
+		this.main_node.attachChild(light_body);
+                
+                this.resetCameraControl();
+                
+                
 	}
         
         public void setVerticalFOV(int vert_fov) {
