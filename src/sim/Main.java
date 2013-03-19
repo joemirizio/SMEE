@@ -109,7 +109,7 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         // Initialize Main Camera
         flyCam.setMoveSpeed(20);
         flyCam.setEnabled(true);
-        cam.setLocation(new Vector3f(20, 20, -20));
+        cam.setLocation(new Vector3f(20, 20, -20)); 
         cam.lookAt(new Vector3f(-5, 0, 5), Vector3f.UNIT_Y);
 
         /** Setup Test Area **/
