@@ -138,11 +138,11 @@ public class Scenario implements ActionListener {
         // Camera - 2 Cameras at center
         this.main_app.cam1.setVerticalFOV(56);
         this.main_app.cam1.setLocalTranslation(new Vector3f(-.5f, 5.75f, -2f));
-        this.main_app.cam1.lookAt(new Vector3f(0.3f,-0.7f,0.55f));
+        this.main_app.cam1.lookAt(new Vector3f(0.3f,-.75f,.55f));
 
         this.main_app.cam2.setVerticalFOV(56);
         this.main_app.cam2.setLocalTranslation(new Vector3f(0.5f, 5.75f, -2f));
-        this.main_app.cam2.lookAt(new Vector3f(-0.3f, -0.7f, 0.55f));
+        this.main_app.cam2.lookAt(new Vector3f(-0.3f, -.75f,.55f));
 
     }
 
@@ -439,12 +439,12 @@ public class Scenario implements ActionListener {
 
         // Camera - 2 cheaper cameras spaced out, VFOV 36 degrees
         this.main_app.cam1.setVerticalFOV(36);
-        this.main_app.cam1.setLocalTranslation(new Vector3f(-3f, 5.75f, -2f));
-        this.main_app.cam1.lookAt(new Vector3f(0.3f,-0.7f,0.55f));
+        this.main_app.cam1.setLocalTranslation(new Vector3f(-.5f, 5.75f, -2f));
+        this.main_app.cam1.lookAt(new Vector3f(.3f,-.7f,.55f));
 
         this.main_app.cam2.setVerticalFOV(36);
-        this.main_app.cam2.setLocalTranslation(new Vector3f(3f, 5.75f, -2f));
-        this.main_app.cam2.lookAt(new Vector3f(-0.3f, -0.7f, 0.55f));
+        this.main_app.cam2.setLocalTranslation(new Vector3f(.5f, 5.75f, -2f));
+        this.main_app.cam2.lookAt(new Vector3f(-.3f, -.7f, .55f));
 
     }
     public void scenario8() {
