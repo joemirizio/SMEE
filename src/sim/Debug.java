@@ -81,10 +81,13 @@ public class Debug {
 		debug_node.detachAllChildren();
 	}
 	public static void clearNode(String starts_with) {
-		for (Spatial s : debug_node.getChildren()) {
-			if (s.getName().startsWith(starts_with)) {
-				s.removeFromParent();
-			}
-		}
+            clearNode(starts_with, debug_node);
+	}
+        public static void clearNode(String starts_with, Node n) {
+            for (Spatial s : n.getChildren()) {
+                if (s.getName().startsWith(starts_with)) {
+                    s.removeFromParent();
+                }
+            }
 	}
 }

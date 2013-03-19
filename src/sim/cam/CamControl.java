@@ -80,7 +80,7 @@ public class CamControl extends AbstractControl {
 		this.frustum.setMaterial(new Material(Main.ASSET_MANAGER, "Common/MatDefs/Misc/Unshaded.j3md"));
 		this.frustum.getMaterial().setColor("Color", ColorRGBA.White);
 		
-		Main.ROOT_NODE.attachChild(this.frustum);
+		//Main.ROOT_NODE.attachChild(this.frustum);
 	}
 	
 	//@TODO Move to Cam

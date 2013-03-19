@@ -17,6 +17,7 @@ import com.jme3.post.SceneProcessor;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.renderer.queue.RenderQueue;
+import com.jme3.renderer.queue.RenderQueue.ShadowMode;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh.Mode;
 import com.jme3.scene.Node;
@@ -53,6 +54,8 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         public static Geometry prediction_line;
         public static Geometry alert_zone;
         public static Geometry safe_zone;
+        public static boolean show_cam_point = true;
+        public static boolean show_cam_frust = true;
         
         /** Cameras**/
 	public static Cam cam1;
@@ -68,7 +71,6 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
 	//private BufferedImage bi;
 	
 	Spatial test_child = null;
-
 	
     public static void main(String[] args) {
         /** Application Settings **/
@@ -103,7 +105,7 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         // Lighting
         /** Basic shadow for even surfaces */ 
         BasicShadowRenderer bsr = new BasicShadowRenderer(assetManager, 256);
-        bsr.setDirection(new Vector3f(-.5f,-.5f,-.5f).normalizeLocal());
+        bsr.setDirection(new Vector3f(0f,-1f,0f).normalizeLocal());
         viewPort.addProcessor(bsr);
 
         // Initialize Main Camera
@@ -116,6 +118,7 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         // Floor
         floor = new Geometry("Floor", new Box(Vector3f.ZERO, 15, 0.1f, 15));
         floor.setLocalTranslation(Vector3f.ZERO);
+        floor.setShadowMode(ShadowMode.Receive);
         rootNode.attachChild(floor);
         
         // Prediction Zone
@@ -123,16 +126,19 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         prediction_line_cylinder.setMode(Mode.Lines);
         prediction_line = new Geometry("PredictionZone", prediction_line_cylinder);
         prediction_line.rotate(FastMath.HALF_PI, 0, 0);
+        prediction_line.setShadowMode(ShadowMode.Receive);
         rootNode.attachChild(prediction_line);
         
         // Alert Zone
         alert_zone = new Geometry("AlertZone", new Cylinder(2, 30, 10, 0.5f, true));
         alert_zone.rotate(FastMath.HALF_PI, 0, 0);
+        alert_zone.setShadowMode(ShadowMode.Receive);
         rootNode.attachChild(alert_zone);
         
         // Safe Zone
         safe_zone = new Geometry("SafeZone", new Cylinder(2, 30, 5, 0.6f, true));
         safe_zone.rotate(FastMath.HALF_PI, 0, 0);
+        safe_zone.setShadowMode(ShadowMode.Receive);
         rootNode.attachChild(safe_zone);
         
         // 120 degrees boundries (+/- 60 degrees)
@@ -156,12 +162,14 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         cam_vp2.setClearFlags(true, true, true);
         cam_vp2.attachScene(rootNode);
         cam_vp2.setBackgroundColor(ColorRGBA.Pink);
+        //cam_vp2.addProcessor(bsr);
 
         cam2.getCamera().setViewPort(1.0f, 1.625f, 0f, 0.625f);
         ViewPort cam_vp1 = renderManager.createMainView("cam2", cam2.getCamera());
         cam_vp1.setClearFlags(true, true, true);
         cam_vp1.attachScene(rootNode);
         cam_vp1.setBackgroundColor(ColorRGBA.Pink);
+        //cam_vp1.addProcessor(bsr);
         
         
         // Set default scenario
@@ -211,13 +219,15 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         inputManager.addMapping("NEXT_SCENARIO", new KeyTrigger(KeyInput.KEY_RBRACKET));
         
         inputManager.addMapping("TOP_DOWN_VIEW", new KeyTrigger(KeyInput.KEY_T));
+        inputManager.addMapping("TOGGLE_CAM_POINT", new KeyTrigger(KeyInput.KEY_P));
+        inputManager.addMapping("TOGGLE_CAM_FRUST", new KeyTrigger(KeyInput.KEY_F));
 
         inputManager.addListener(this, new String[]{
             "CREATE_SLOW", "CREATE_FAST", "CREATE_ARC", 
             "SPEED_NORMAL", "SPEED_UP", "SPEED_DOWN",
             "SPACE", "RESET", "LEFT_CLICK", "RIGHT_CLICK",
             "PREV_SCENARIO", "NEXT_SCENARIO",
-            "TOP_DOWN_VIEW"
+            "TOP_DOWN_VIEW", "TOGGLE_CAM_POINT", "TOGGLE_CAM_FRUST"
         });
 
         /** Debug **/
@@ -230,6 +240,7 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         Spatial child = assetManager.loadModel("Models/mindstorm.j3o");
         child.scale(0.25f);
         child.setLocalTranslation(new Vector3f(0, 0.3f, 0));
+        child.setShadowMode(ShadowMode.Cast);
         // Set respective control
         TestChildControl child_control = null;
         if (test_child_type.equals(TestChild.Type.TangentialArc)) {
@@ -292,9 +303,19 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         
         if (name.equals("TOP_DOWN_VIEW") && is_pressed) {
             cam.setLocation(new Vector3f(0, 25, -2));   //top down view of flycam
-            cam.lookAt(new Vector3f(0, 0, 0), Vector3f.UNIT_Y);   //looking at origin
+            cam.lookAt(new Vector3f(0, 0, 1.5f), Vector3f.UNIT_Y);   //looking at origin
         }
-
+        
+        if (name.equals("TOGGLE_CAM_POINT") && is_pressed) {
+            show_cam_point = !show_cam_point;
+            cam1.lookAt(cam1.getCamera().getDirection());
+            cam2.lookAt(cam2.getCamera().getDirection());
+        }
+        if (name.equals("TOGGLE_CAM_FRUST") && is_pressed) {
+            show_cam_frust = !show_cam_frust;
+            cam1.lookAt(cam1.getCamera().getDirection());
+            cam2.lookAt(cam2.getCamera().getDirection());
+        }
         // Process camera viewport
         /*if (name.equals("SPACE1") && is_pressed) {
 
