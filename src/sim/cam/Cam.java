@@ -82,7 +82,7 @@ public class Cam {
 
 	public void lookAt(Vector3f location) {
 		this.camera.lookAtDirection(location, Vector3f.UNIT_Y);
-		Debug.attachArrow(this.getMainNode(), this.getCamera().getDirection().mult((Cam.FAR + Cam.NEAR) / 2), ColorRGBA.White, this.getMainNode().getName() + "Loc");
+		Debug.attachArrow(this.getMainNode(), this.getCamera().getDirection().mult((Cam.FAR + Cam.NEAR) / 2), ColorRGBA.LightGray, this.getMainNode().getName() + "Loc");
 
 		// Update Frustum
 		CamControl control = this.main_node.getControl(CamControl.class);

@@ -111,9 +111,6 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         flyCam.setEnabled(true);
         cam.setLocation(new Vector3f(20, 20, -20));
         cam.lookAt(new Vector3f(-5, 0, 5), Vector3f.UNIT_Y);
-        
-        //cam.setLocation(new Vector3f(0, 25, -2));   //top down view of flycam
-        //cam.lookAt(new Vector3f(0, 0, 0), Vector3f.UNIT_Y);   //looking at origin
 
         /** Setup Test Area **/
         // Floor
@@ -140,8 +137,11 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         
         // 120 degrees boundries (+/- 60 degrees)
         float dist = 12;
-        Debug.attachArrow(rootNode, new Vector3f(FastMath.sin(FastMath.DEG_TO_RAD * 60) * dist, 1, FastMath.cos(FastMath.DEG_TO_RAD * 60) * dist), ColorRGBA.Yellow, "1");
-        Debug.attachArrow(rootNode, new Vector3f(-FastMath.sin(FastMath.DEG_TO_RAD * 60) * dist, 1, FastMath.cos(FastMath.DEG_TO_RAD * 60) * dist), ColorRGBA.Yellow, "2");
+        Node bounds = new Node();
+        bounds.move(0, 1, 0);
+        rootNode.attachChild(bounds);
+        Debug.attachArrow(bounds, new Vector3f(FastMath.sin(FastMath.DEG_TO_RAD * 60) * dist, 1, FastMath.cos(FastMath.DEG_TO_RAD * 60) * dist), ColorRGBA.Yellow, "Bound1");
+        Debug.attachArrow(bounds, new Vector3f(-FastMath.sin(FastMath.DEG_TO_RAD * 60) * dist, 1, FastMath.cos(FastMath.DEG_TO_RAD * 60) * dist), ColorRGBA.Yellow, "Bound2");
 
         /** Initilize Cameras **/
         cam1 = new Cam("cam1");
@@ -209,12 +209,15 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
         
         inputManager.addMapping("PREV_SCENARIO", new KeyTrigger(KeyInput.KEY_LBRACKET));
         inputManager.addMapping("NEXT_SCENARIO", new KeyTrigger(KeyInput.KEY_RBRACKET));
+        
+        inputManager.addMapping("TOP_DOWN_VIEW", new KeyTrigger(KeyInput.KEY_T));
 
         inputManager.addListener(this, new String[]{
             "CREATE_SLOW", "CREATE_FAST", "CREATE_ARC", 
             "SPEED_NORMAL", "SPEED_UP", "SPEED_DOWN",
             "SPACE", "RESET", "LEFT_CLICK", "RIGHT_CLICK",
-            "PREV_SCENARIO", "NEXT_SCENARIO"
+            "PREV_SCENARIO", "NEXT_SCENARIO",
+            "TOP_DOWN_VIEW"
         });
 
         /** Debug **/
@@ -285,6 +288,11 @@ public class Main extends SimpleApplication implements ActionListener, SceneProc
             int scenario_num = scenario.runNextScenario();
         } else if (name.equals("NEXT_SCENARIO") && is_pressed) {
             int scenario_num = scenario.runPrevScenario();
+        }
+        
+        if (name.equals("TOP_DOWN_VIEW") && is_pressed) {
+            cam.setLocation(new Vector3f(0, 25, -2));   //top down view of flycam
+            cam.lookAt(new Vector3f(0, 0, 0), Vector3f.UNIT_Y);   //looking at origin
         }
 
         // Process camera viewport

@@ -74,7 +74,7 @@ public class CamControl extends AbstractControl {
 		//wire_frustum.setMode(Mode.Triangles);
 		
 		
-		this.frustum = new Geometry("Frustum", wire_frustum);
+		this.frustum = new Geometry("Frustum " + camera.getName(), wire_frustum);
 		this.frustum.setCullHint(Spatial.CullHint.Never);
 		this.frustum.setShadowMode(ShadowMode.Off);
 		this.frustum.setMaterial(new Material(Main.ASSET_MANAGER, "Common/MatDefs/Misc/Unshaded.j3md"));
@@ -129,8 +129,8 @@ public class CamControl extends AbstractControl {
 	public final void updateFrustumPoints2(Camera viewCam, Vector3f[] points){
         int w = viewCam.getWidth();
         int h = viewCam.getHeight();
-        float n = 0;//viewCam.getFrustumNear();
-        float f = 1;//viewCam.getFrustumFar();
+        float n = 0;//viewCam.getFrustumNear(); //0
+        float f = 1;//viewCam.getFrustumFar(); // 1
         
         points[0].set(viewCam.getWorldCoordinates(new Vector2f(0, 0), n));
         points[1].set(viewCam.getWorldCoordinates(new Vector2f(0, h), n));

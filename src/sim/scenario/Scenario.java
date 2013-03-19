@@ -33,7 +33,7 @@ public class Scenario implements ActionListener {
      * Number of scenarios.
      * *** Change this when more are added. ***
      */
-    public static final int SCENARIO_COUNT = 1;
+    public static final int SCENARIO_COUNT = 6;
     
     private Main main_app;
     public int scenario_num;
